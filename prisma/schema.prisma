@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          Int   @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  phone       String?
+  address     String?
+  dob         DateTime @db.Date
+  profession  String?
+  firstname   String?
+  lastname    String?
+  role        Role
+  photo       String?
+  status      Boolean  @default(false)   
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  weatherDetails WeatherDetails[]
+}
+
+model WeatherDetails {
+   id          Int   @id @default(autoincrement())
+  user              User?    @relation(fields: [user_id], references: [id])
+  user_id           Int      
+  lat               String
+  long              String
+  city_id           Int?
+  city_name         String?
+  city_country      String?
+  city_population   Int?
+  city_timezone     Int?
+  city_sunrise      Int?
+  city_sunset       Int?
+  weather_data      Json?
+  air_data          Json?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+enum Role {
+  SUPERADMIN
+  SUPPORT
+  CUSTOMER
+  TEAMMEMBER
+}
+

@@ -1,0 +1,9 @@
+model WeatherDetailsList{
+  id                    Int               @id @default(autoincrement())
+  weatherDetails        WeatherDetails    @relation(fields: [weather_details_id], references: [id])
+  weather_details_id    Int               @unique
+  date                  DateTime @db.Date
+  data                  String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
